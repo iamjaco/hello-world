@@ -1,0 +1,75 @@
+
+<!-- <div align="center" style="padding-bottom:10px;"> -->
+    <!-- <span class="closebtn" onclick="switchBoard()">&times;</span> -->
+    <!-- <a href="https://www.powerlanguage.co.uk/wordle/" target="_blank"><strong>Wordle</strong> daily challenges</a>?
+</div> -->
+
+<div class="instructions">
+    <p>
+     This <strong>Wordle Solver</strong> will guess your word in 6 tries.
+    </p>
+
+    <p>
+     Your word should be a valid 5-letter word within <a href="https://raw.githubusercontent.com/kiking0501/Wordle-Solver/master/data/small-ordered.txt" target="_blank"><strong>this list (2315 words)</strong></a>.
+     <!-- <i class="fa fa-external-link" aria-hidden="true" style="color:inherit"></i> -->
+    </p>
+
+    <p>
+     For each active guess from the solver, <strong>click on the tiles</strong> and change their colors to show how close the guess is to your word.
+    </p>
+
+</div>
+
+
+
+<div class="examples">
+    <p><strong> Examples </strong></p>
+    <div class="tile" data-state="correct">D</div>
+    <div class="tile" data-state="tbd">E</div>
+    <div class="tile" data-state="tbd">B</div>
+    <div class="tile" data-state="tbd">U</div>
+    <div class="tile" data-state="tbd">G</div>
+    <p>
+        The letter D is in the word and in the correct spot.
+    </p>
+
+    <div class="tile" data-state="tbd">S</div>
+    <div class="tile" data-state="present">M</div>
+    <div class="tile" data-state="tbd">I</div>
+    <div class="tile" data-state="tbd">L</div>
+    <div class="tile" data-state="tbd">E</div>
+    <p>
+    The letter M is in the word but in the wrong spot.
+    </p>
+
+    <div class="tile" data-state="tbd">S</div>
+    <div class="tile" data-state="tbd">O</div>
+    <div class="tile" data-state="tbd">L</div>
+    <div class="tile" data-state="tbd">V</div>
+    <div class="tile" data-state="absent">E</div>
+    <p>
+    The letter E is not in the word in any spot.
+    </p>
+
+    <div class="tile" data-state="tbd">H</div>
+    <div class="tile" data-state="tbd">A</div>
+    <div class="tile" data-state="present">P</div>
+    <div class="tile" data-state="absent">P</div>
+    <div class="tile" data-state="tbd">Y</div>
+    <p>
+    The letter P is in the word but it appears only once. <br>
+    It is also in the wrong spots.
+    </p>
+
+    <div class="tile" data-state="tbd">H</div>
+    <div class="tile" data-state="tbd">A</div>
+    <div class="tile" data-state="absent">P</div>
+    <div class="tile" data-state="present">P</div>
+    <div class="tile" data-state="tbd">Y</div>
+    <p>
+    An invalid coloring <span style="color:red">(!)</span> for the solver. <br>
+       Instead, mark the letter P following the above example.
+    </p>
+</div>
+
+

@@ -1,0 +1,132 @@
+
+<div class="story-session">
+    <p class="title" onclick="toggleSession('aboutDetails')" style="color: var(--darkendYellow)"><i class="fa fa-coffee" style="color:inherit"></i><strong> About the Solver </strong></p>
+
+    <div class="details" id="aboutDetails">
+        <p> See below for the details of two solver strategies. Both strategies were implemented in Python with more updates <a href='http://github.com/kiking0501/Wordle-Solver' target="_blank"><strong>here</strong></a>.
+        </p>
+        <p style="padding-bottom:20px">
+        The solver currently displays the Heuristic strategy. <i class="fa fa-coffee close-coffee" onclick="toggleSession('aboutDetails')"> </i>
+        </p>
+
+    </div>
+</div>
+
+<div class="story-session">
+    <p class="title" onclick="toggleSession('heuristicDetails')"><i class="fa fa-coffee" style="color:inherit"></i><strong> [Strategy A] Play Heuristically with Character Frequencies </strong></p>
+
+    <div class="details" id="heuristicDetails" style="display:none">
+        <p>
+            Intuitively, what words might work well for a first guess in the game?
+        </p>
+        <p>
+            A natural thought is to figure out in early guesses which vowels ('a', 'e', 'i', 'o', 'u') exist in the target, since a word must contain at least one vowel.
+        </p>
+
+        <p>More generally, one might consider words composed of common characters (including the vowels) over rare characters, since determining the existence of common characters provide more information for selecting the next guess.
+        </p>
+        <p> That leads to the first heuristic rule:
+        </p>
+        <p>
+            <strong>Heuristic Rule</strong>: Give favour to words composed of common characters rather than rare characters.
+        </p>
+        <p>
+            <strong>Scoring Function</strong>: Let ${f_T}(c)$ be the frequency count of a character $c$ among words from a target set $T$. Then the score of a guess word with unique characters $c_1, c_2, ..., c_k$ could be taken as the sum $\sum_{j=0}^{k} {f_T}(c_j)$. A guess word in $T$ with the highest score would be the next guess.
+        </p>
+        <p>
+            After the first guess, the same heuristic rule can be applied in subsequent guesses by scoring with updated  character frequencies $f_{T_i}$, where $T_i$ is the set of remaining candidates at the $i$-th guess.
+        </p>
+        ~~~
+        <p>
+            On the other hand, sometimes, one might wish to guess words not listed in the remaining candidates. For example, consider words that end with "-ound". There are over eight of them (e.g. "bound", "pound", "mound", "sound", etc).
+        </p>
+        <p>
+            If the remaining candidates only consist of these "-ound" words, a better guess word could be e.g. "plumb" since it has more significant letters ('p', 'b', and 'm') of those "-ound" words.
+        </p>
+        <p> That leads to an adjusted heuristic rule:
+        </p>
+
+        <p>
+            <strong>Adjusted Heuristic Rule</strong>: Consider all possible guess words. Give favour to words composed of "significant" characters by excluding characters already shared by all remaining candidates.
+        </p>
+
+        <p>
+            <strong>Scoring Function</strong>: On top of the previous scoring function, let $X_{i}$ be the set of characters that appear in every word from $T_i$. Then the score of a guess word with unique characters $c_1, c_2, ..., c_k$ could be adjusted as $\sum_{j=0, c_j \notin X_{i}}^{k} f_{T_i}(c_j)$.
+            A word with the highest score among all possible guess words would be the next guess.
+        </p>
+
+        <p style="padding-bottom:20px">
+            <strong>Result</strong>: With the adjusted heuristic rule, the solver can guess <a href="https://raw.githubusercontent.com/kiking0501/Wordle-Solver/master/data/small-ordered.txt" target="_blank"><strong>all 2315 words <i class="fa fa-external-link" aria-hidden="true" style="color:inherit"></i></strong></a> within <strong>six guesses</strong> using first guesses such as "raise", "later", or "snare". And the average number of guesses is <strong>~3.8</strong>. Works like a charm to tackle the Wordle daily challenges. <i class="fa fa-coffee close-coffee" onclick="toggleSession('heuristicDetails')"></i>
+        </p>
+
+    </div>
+</div>
+
+<div class="story-session">
+    <p class="title" onclick="toggleSession('entropyDetails')"><i class="fa fa-coffee" style="color:inherit"></i><strong> [Strategy B] Maximize the Information Entropy </strong></p>
+
+    <div class="details" id="entropyDetails" style="display:none">
+        <p>
+            <strong>Intuition</strong>: From the discussed heuristic rule, one might observe that a good guess word should have diversified response outcomes, where each response outcome is the feedback with respect to a potential target word.
+        </p>
+        <p>
+            As an example, take three "-ound" words, "bound", "pound", and "mound" as the target candidates. If we choose the guess word as "lound", all possible responses would be the same outcome:
+            $$\text{Absent-Correct-Correct-Correct-Correct}$$
+            On the other hand, choosing a guess word "plumb" would result in three different response outcomes:
+            $$\text{Absent-Absent-Correct-Absent-Present}$$
+            $$\text{Correct-Absent-Correct-Absent-Absent}$$
+            $$\text{Absent-Absent-Correct-Present-Absent}$$
+            Clearly, the "plumb" is a good guess word since its diversified response outcomes help us better determine the actual target word.
+        </p>
+        <p> How might these response outcomes be quantified for our guess word scoring?
+        </p>
+        <p>
+            <strong>Information Entropy</strong> Let $R: \{x_1, x_2, ..., x_u\}$ be the set of all distinct response outcomes, where $u = 3^5 = 243$ (since a response outcome is composed of one of {$\text{Correct, Present, Absent}$} for five letters).
+        </p>
+        <p>
+            Define $X_w$ to be a discrete random variable with respect to a guess word $w$ that has possible outcome $x_1, x_2, ..., x_r \in R$, and each outcome $x_j$ occurs with probability $p_w(x_j)$.
+
+            In information theory, we could measure the level of "information" of this random variable $X_w$ using the <a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)" target="_blank"><strong>Shannon Entropy</strong></a>:
+
+            $$H(X_w) = - \sum_{j=1}^{r} \ p_w(x_j) \ \log \ p_w(x_j) $$
+
+           where a higher entropy value indicates that $p_w(x_j)$ spreads out more evenly rather than being skewed.
+
+        </p>
+        <p>
+            <strong>Scoring Function</strong>  From the above formulation, we could see that the entropy of $X_w$ is, in fact, a good measurement of how diverse the response outcomes $x_1, x_2, ..., x_r$ are with respect to a guess word $w$. The score of $w$ could then simply be  the entropy of its associated random variable $X_w$. To compute $p_w(x_j)$, one might assume that the target word is selected uniformly and randomly. Then
+
+            $$p_w(x_j) = \frac{\text{Number of target candidates that }w\text{ results in }x_j}{\text{Total number of target candidates}} $$
+
+            The word with the maximum associated entropy among all possible guess words would be selected as the next guess.
+        </p>
+
+
+        <p style="padding-bottom:20px">
+            <strong>Result</strong>:  While the entropy computation takes much time, the solver can guess <a href="https://raw.githubusercontent.com/kiking0501/Wordle-Solver/master/data/small-ordered.txt" target="_blank"><strong>all 2315 words <i class="fa fa-external-link" aria-hidden="true" style="color:inherit"></i></strong></a> within <strong>five guesses</strong> using first guesses such as "react". And the average number of guesses is <strong>~3.6</strong>. Solves the Wordle daily challenges with ease of mind.
+            <i class="fa fa-coffee close-coffee" onclick="toggleSession('entropyDetails')"> </i>
+        </p>
+    </div>
+
+</div>
+
+
+<div class="story-session">
+    <p class="title" onclick="toggleSession('nightDetails')"><i class="fa fa-coffee" style="color:inherit"></i><strong> The Night </strong></p>
+    <div class="details" id="nightDetails" style="display:none">
+        <p>
+            "Hey," I said, skimming through the updates of my social media. "Have you tried the <a href="https://www.powerlanguage.co.uk/wordle/" target="_blank"><strong>Wordle daily challenges</strong></a>?"
+        </p>
+        <p> "Nope, what's that?" He asked.
+        </p>
+        <p> Quickly after two guesses in the game, he started searching for five-letter dictionaries online. "Don't cheat," I giggled as I watched him scanning through the dictionary words one by one. Finally, he commented, "this game should be tackled by a computer program. I bet it would be fairly easy to write a solver."
+        </p>
+        <p> "Yeh, let's try that out. I bet my solver is going to beat yours. "
+        </p>
+        ~~
+
+        <p style="padding-bottom:20px">
+            Finally, my strategy got a six and his strategy got a five for the worst number of guesses. However, mine runs much faster. That counts as my win, I would say. <i class="fa fa-coffee close-coffee" onclick="toggleSession('nightDetails')"></i>
+        </p>
+    </div>
+</div>
