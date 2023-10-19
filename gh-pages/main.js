@@ -45,8 +45,8 @@ function drawInitialBoard(callback){
         $("#board").append(gamerow.clone());
     }
 
-    var msg = ["guess", "your", "words", "in", "six", "tries"];
-    var style = ["correct", "present", "absent", "tbd", "tbd", "tbd"];
+    var msg = ["cheat", "like", "a", "champ", "to", "win"];
+    var style = ["correct", "present", "absent", "correct", "tbd", "tbd"];
 
     for (let i = 0; i < ROW_NUM; i++) {
         var row = $("#board game-row").eq(i);
