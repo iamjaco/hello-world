@@ -168,9 +168,9 @@ function setTileButton(tile) {
 function tileChangeColor(btn) {
     var change = {
         // "tbd": "correct",
-        "correct": "present",
-        "present": "absent",
-        "absent": "correct",
+        "present": "correct",
+        "correct": "absent",
+        "absent": "present",
         "congrats": "absent",
     }
     var tile = $(btn);
