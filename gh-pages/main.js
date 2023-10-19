@@ -77,12 +77,9 @@ function drawInitialBoard(callback){
 
 function readWords(){
     $.get('data/small.txt', function(data) {
-      WORDS = data.split("\n");
-      
-      // Log WORDS array to console
-      console.log(WORDS); 
+        WORDS = data.split("\n");
     })
-  }
+}
 
 function readGuesses(){
     // var player = "smallMaxInformationGainWordlePlayer";

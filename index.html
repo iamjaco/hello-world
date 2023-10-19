@@ -2,14 +2,14 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
-        <meta property = "og:title" content = "Wordle Solver by Jaco"/>
+        <meta property = "og:title" content = "Wordle Solver by [kiking]"/>
         <meta property = "og:description" content = "Solving Wordle - s solver that guesses your 5-letter word in 6 tries."/>
         <meta property = "og:type" content = "website" />
         <meta property = "og:url" content = "https://kiking0501.github.io/Wordle-Solver" />
         <meta property = "og:image" content="https://raw.githubusercontent.com/kiking0501/Wordle-Solver/master/img/wide-home.png" />
         <link rel="icon" type="image/png" href="gh-pages/favicon.png"/>
 
-        <title> Wordle Solver</title>
+        <title> Wordle Solver by [kiking]</title>
 
 
         <!-- Jquery 3-->
@@ -38,7 +38,15 @@
 
 
         <!-- Custom -->
-       
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PCL8H0H0SX"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-PCL8H0H0SX');
+        </script>
 
 
         <link rel="stylesheet" href="gh-pages/style.css">
@@ -70,13 +78,14 @@
     <body>
         <div id="game">
             <header>
-                <div class="title">  <span style="cursor:pointer" onclick="goHome()">CHEATLE</span> </div>
+                <div class="title"> <i id="help-icon" class="fa fa-question-circle-o " onclick="switchBoard()" ></i>  <span style="cursor:pointer" onclick="goHome()">WORDLE SOLVER</span> </div>
 
             </header>
             <div>
                 <div class="subtitle">
-
-                    <a href='https://crappycarrot.com' target="_blank">by CrappyCarrot</a> 
+                    <span class="story-link" onclick="switchStory()">How it works</span> <span class="story-link" onclick="switchStory()"><i class="fa fa-coffee" style="color:inherit"></i></span>
+                    |
+                    <a href='http://github.com/kiking0501/Wordle-Solver' target="_blank">by kiking</a> <a href='http://github.com/kiking0501/Wordle-Solver' target="_blank"><img src="img/GitHub-Mark-32px.png" alt="Kiking's Github" style="height:1em;"></a>
 
                </div>
             </div>
