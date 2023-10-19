@@ -1,3 +1,7 @@
+# This project is a shameless ripoff of the great work done by <a href="https://github.com/kiking0501/Wordle-Solver" target="_blank"><strong>Yin Ki Ng</strong></a>
+
+
+
 # Wordle Solvers in Python
 
 - To guess an unknown 5-letter English word in fewest attempts
@@ -6,7 +10,7 @@
 
 - Read about how it works:
 
-   https://kiking0501.github.io/Wordle-Solver/?=how-it-works
+   https://iamjaco.github.io/Wordle-Solver/?=how-it-works
   
 - Inspired by [Wordle](https://www.powerlanguage.co.uk/wordle/)
 
