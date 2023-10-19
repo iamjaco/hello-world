@@ -182,6 +182,7 @@ function tileChangeColor(btn) {
 
 function displayRemaining() {
     var d = Object.assign({}, GUESSES);
+    var remainingWords = []; // Create an array to store the remaining words.
 
     for (let i = 0; i < ROW_NUM; i++) {
         var row = $("#board game-row").eq(i);
@@ -190,8 +191,17 @@ function displayRemaining() {
         else {
             var new_state = guess_state + "," + getResponseCode(i);
             if (new_state in d) {
-                var leftNum = Object.keys(d[new_state]).length;
+                remainingWords = Object.keys(d[new_state]); // Collect remaining words.
+                var leftNum = remainingWords.length; // Get the count of remaining words.
                 $("#remain-num").text(leftNum.toString());
+
+                // Check if there are fewer than 7 remaining words and show the element accordingly.
+                if (leftNum < 7) {
+                    $("#remaining-words").text("Remaining Words: " + remainingWords.join(", "));
+                    $("#remaining-words").show();
+                } else {
+                    $("#remaining-words").hide();
+                }
             } else if (getResponseCode(i) == 242) {
                 $("#remain-num").text("1");
             } else {
