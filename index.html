@@ -1,18 +1,121 @@
 <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+        <meta property = "og:title" content = "Wordle Solver by Jaco"/>
+        <meta property = "og:description" content = "Solving Wordle - s solver that guesses your 5-letter word in 6 tries."/>
+        <meta property = "og:type" content = "website" />
+        <meta property = "og:url" content = "https://kiking0501.github.io/Wordle-Solver" />
+        <meta property = "og:image" content="https://raw.githubusercontent.com/kiking0501/Wordle-Solver/master/img/wide-home.png" />
+        <link rel="icon" type="image/png" href="gh-pages/favicon.png"/>
 
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>my-first-website</title>
-  <LINK href="styles.css" rel="stylesheet" type="text/css">
-</head>
+        <title> Wordle Solver</title>
 
-<body>
 
-<img src="https://octodex.github.com/images/daftpunktocat-thomas.gif" id="octocat" alt="octocat-gif" />
+        <!-- Jquery 3-->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
-<!-- Change this code here by copy and pasting your template on line 15 -->
-<p>Hello World! I’m Jaco. This is my website!</p>
+        <!-- fontawesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-</body>
+        <!-- Mathjax -->
+        <script type="text/x-mathjax-config">
+                MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+                    tex2jax: { inlineMath: [ ["$", "$"], ["\\\\(","\\\\)"] ], displayMath: [ ["$$","$$"], ["\\[", "\\]"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno" },
+                    TeX: {
+                        extensions: ["begingroup.js"],
+                        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+                        Macros: { href: "{}" }
+                    },
+                    messageStyle: "none",
+
+                    styles: { ".MathJax_Display, .MathJax_Preview, .MathJax_Preview > *": { "background": "inherit" } },
+                    SEEditor: "mathjaxEditing"
+            });
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML-full"></script>
+
+
+        <!-- Custom -->
+       
+
+
+        <link rel="stylesheet" href="gh-pages/style.css">
+        <script type="text/javascript" src="gh-pages/main.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            $( document ).ready(function() {
+                readWords();
+                readGuesses();
+                goHome();
+                $("#help").load("gh-pages/help.html");
+                $("#story").load("gh-pages/story.html");
+                $("#alert").dialog({
+                    dialogClass: "no-close",
+                    appendTo: "#action-container",
+                    autoOpen: false,
+                    modal: true,
+                });
+
+                var url = window.location.href;
+                var suffix = url.substr(url.lastIndexOf('/') + 1);
+                if (suffix.startsWith("?=how-it-works")) {
+                   switchStory();
+                }
+            })
+        </script>
+
+
+    </head>
+    <body>
+        <div id="game">
+            <header>
+                <div class="title">  <span style="cursor:pointer" onclick="goHome()">CHEATLE</span> </div>
+
+            </header>
+            <div>
+                <div class="subtitle">
+
+                    <a href='https://crappycarrot.com' target="_blank">by CrappyCarrot</a> 
+
+               </div>
+            </div>
+
+            <div id="board-container">
+                <div id="board">
+                </div>
+            </div>
+            <div id="help" style="display:none"></div>
+            <div id="story" style="display:none"></div>
+
+            <div id="action-container">
+
+                <div class="keyboard">
+                    <div class="row">
+                        <div class="key" id="start-play" onclick="startPlay()" style="display:none;">START</div>
+                    </div>
+                     <div class="row">
+                        <div class="key" id="submit-response" onclick="submitResponse()" style="display:none;">Proceed ᐅ (<span id="remain-num">2315</span>) </div>
+                    </div>
+                     <div class="row">
+                        <div class="key" id="play-again" onclick="startPlay()" style="display:none;">Play Again &nbsp;<i class="fa fa-refresh" aria-hidden="true" style="color:black"></i></div>
+                    </div>
+                </div>
+                <div class="keyboard">
+                    <div class="row">
+                        <div class="key" id="edit-previous" onclick="editPrevious()" style="display:none;"> ᐊ Edit Previous</div>
+                    </div>
+                </div>
+
+                <div id="alert" class="game-box" style="display:none;">
+                  <span class="closebtn" onclick="closeBox('alert')" style="color: white;">&times;</span>
+                  <strong>Ooops.</strong> Could not guess your word. <br> <br> Does your word exist in <a href="https://raw.githubusercontent.com/kiking0501/Wordle-Solver/master/data/small-ordered.txt" target="_blank"><strong>this word list (2315 words) <i class="fa fa-external-link" aria-hidden="true" style="color:inherit"></i></strong></a>?
+                </div>
+            </div>
+
+        </div>
+        <game-row id="game-row-clone" letters length="5"><div class="row"></div></game-row>
+        <div id="tile-clone" class="tile" data-state="empty" style="display:none"></div>
+
+    </body>
 </html>
